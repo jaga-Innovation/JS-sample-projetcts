@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,6 +119,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -158,16 +160,19 @@
                 return;
             }
 
-            shoppingList.push({ item, price });
+            shoppingList.push({
+                item,
+                price
+            });
             totalCost += price;
             displayList();
-            itemInput.value = '';  // Clear item input field
-            priceInput.value = '';  // Clear price input field
+            itemInput.value = ''; // Clear item input field
+            priceInput.value = ''; // Clear price input field
         }
 
         function removeItem(index) {
             totalCost -= shoppingList[index].price;
-            shoppingList.splice(index, 1);  // Remove item at index
+            shoppingList.splice(index, 1); // Remove item at index
             displayList();
         }
 
@@ -183,7 +188,8 @@
             } else {
                 emptyMessage.style.display = 'none';
                 shoppingList.forEach((entry, index) => {
-                    listElement.innerHTML += `<li>${entry.item} - $${entry.price.toFixed(2)} <button class="remove-btn" onclick="removeItem(${index})">Remove</button></li>`;
+                    listElement.innerHTML +=
+                        `<li>${entry.item} - $${entry.price.toFixed(2)} <button class="remove-btn" onclick="removeItem(${index})">Remove</button></li>`;
                 });
             }
 
@@ -213,4 +219,5 @@
     </script>
 
 </body>
+
 </html>
