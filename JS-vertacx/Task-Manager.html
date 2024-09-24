@@ -1,199 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
     <style>
-      body {
-        font-family: "Arial", sans-serif;
-        background-color: #e9ecef;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }h1 { color: #343a40;
-      }
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-      .task-container {
-        width: 90%;
-        max-width: 600px;
-        background: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
-      }
+        h1 {
+            color: #343a40;
+        }
 
-      .task {
-        background: #f8f9fa;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 5px;
-        position: relative;
-        transition: background 0.3s ease;
-      }
+        .task-container {
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
 
-      .task.completed {
-        background: #c3e6cb;
-        text-decoration: line-through;
-      }
+        .task {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
 
-      .task:hover {
-        background: #f1f3f5;
-      }
+        .task.completed {
+            background: #c3e6cb;
+            text-decoration: line-through;
+        }
 
-      .task button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
+        .task:hover {
+            background: #f1f3f5;
+        }
 
-      .task button:hover {
-        background: #c82333;
-      }
+        .task button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
-      .add-task {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-      }      .add-task input,
-      .add-task select {
-        width: calc(60% - 10px);
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-      }
-      .add-task button {
-        padding: 10px 15px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
+        .task button:hover {
+            background: #c82333;
+        }
 
-      .add-task button:hover {
-        background: #0056b3;
-      }
+        .add-task {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .add-task input,
+        .add-task select {
+            width: calc(60% - 10px);
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .add-task button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .add-task button:hover {
+            background: #0056b3;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <h1>Task Manager</h1>
     <div class="task-container" id="taskList"></div>
     <div class="add-task">
-      <input type="text" id="taskTitle" placeholder="Task Title" required />
-      <select id="taskPriority">
-        <option value="Medium">Medium Priority</option>
-        <option value="High">High Priority</option>
-        <option value="Low">Low Priority</option>
-      </select>
-      <button id="addTaskBtn">Add Task</button>
+        <input type="text" id="taskTitle" placeholder="Task Title" required />
+        <select id="taskPriority">
+            <option value="Medium">Medium Priority</option>
+            <option value="High">High Priority</option>
+            <option value="Low">Low Priority</option>
+        </select>
+        <button id="addTaskBtn">Add Task</button>
     </div>
     <script>
-      // Task Manager Object
-      const taskManager = {
-        tasks: [], // Array to hold tasks
+        // Task Manager Object
+        const taskManager = {
+            tasks: [], // Array to hold tasks
 
-        // Method to add a task
-        addTask(title, priority = "Medium") {
-          const task = {
-            title,
-            description: "",
-            status: "Pending",
-            priority,
-          };
-          this.tasks.push(task);
-          this.displayTasks();
-        },
+            // Method to add a task
+            addTask(title, priority = "Medium") {
+                const task = {
+                    title,
+                    description: "",
+                    status: "Pending",
+                    priority,
+                };
+                this.tasks.push(task);
+                this.displayTasks();
+            },
 
-        // Method to remove a task by title
-        removeTask(title) {
-          this.tasks = this.tasks.filter((task) => task.title !== title);
-          this.displayTasks();
-        },
+            // Method to remove a task by title
+            removeTask(title) {
+                this.tasks = this.tasks.filter((task) => task.title !== title);
+                this.displayTasks();
+            },
 
-        // Method to update a task by title
-        updateTask(title, updates) {
-          this.tasks = this.tasks.map((task) =>
-            task.title === title
-              ? {
-                  ...task,
-                  ...updates,
+            // Method to update a task by title
+            updateTask(title, updates) {
+                this.tasks = this.tasks.map((task) =>
+                    task.title === title ?
+                    {
+                        ...task,
+                        ...updates,
+                    } :
+                    task
+                );
+                this.displayTasks();
+            },
+
+            // Method to toggle task status
+            toggleStatus(title) {
+                const task = this.tasks.find((task) => task.title === title);
+                if (task) {
+                    const newStatus =
+                        task.status === "Pending" ? "Completed" : "Pending";
+                    this.updateTask(title, {
+                        status: newStatus,
+                    });
                 }
-              : task
-          );
-          this.displayTasks();
-        },
+            },
 
-        // Method to toggle task status
-        toggleStatus(title) {
-          const task = this.tasks.find((task) => task.title === title);
-          if (task) {
-            const newStatus =
-              task.status === "Pending" ? "Completed" : "Pending";
-            this.updateTask(title, {
-              status: newStatus,
-            });
-          }
-        },
-
-        // Method to display tasks
-        displayTasks() {
-          const taskList = document.getElementById("taskList");
-          taskList.innerHTML = ""; // Clear existing tasks
-          this.tasks.forEach(({ title, status, priority }) => {
-            const taskDiv = document.createElement("div");
-            taskDiv.className = `task ${
+            // Method to display tasks
+            displayTasks() {
+                const taskList = document.getElementById("taskList");
+                taskList.innerHTML = ""; // Clear existing tasks
+                this.tasks.forEach(({
+                    title,
+                    status,
+                    priority
+                }) => {
+                    const taskDiv = document.createElement("div");
+                    taskDiv.className = `task ${
               status === "Completed" ? "completed" : ""
             }`;
-            taskDiv.innerHTML = `<strong>${title}</strong> <br><strong>Priority:</strong> ${priority} <br><strong>Status:</strong> ${status}`;
+                    taskDiv.innerHTML =
+                        `<strong>${title}</strong> <br><strong>Priority:</strong> ${priority} <br><strong>Status:</strong> ${status}`;
 
-            const removeBtn = document.createElement("button");
-            removeBtn.innerText = "Remove";
-            removeBtn.onclick = () => this.removeTask(title);
+                    const removeBtn = document.createElement("button");
+                    removeBtn.innerText = "Remove";
+                    removeBtn.onclick = () => this.removeTask(title);
 
-            const toggleBtn = document.createElement("button");
-            toggleBtn.innerText =
-              status === "Completed" ? "Mark as Pending" : "Mark as Completed";
-            toggleBtn.onclick = () => this.toggleStatus(title);
+                    const toggleBtn = document.createElement("button");
+                    toggleBtn.innerText =
+                        status === "Completed" ? "Mark as Pending" : "Mark as Completed";
+                    toggleBtn.onclick = () => this.toggleStatus(title);
 
-            taskDiv.appendChild(removeBtn);
-            taskDiv.appendChild(toggleBtn);
-            taskList.appendChild(taskDiv);
-          });
-        },
-      };
+                    taskDiv.appendChild(removeBtn);
+                    taskDiv.appendChild(toggleBtn);
+                    taskList.appendChild(taskDiv);
+                });
+            },
+        };
 
-      // Event listener for adding tasks
-      document.getElementById("addTaskBtn").addEventListener("click", () => {
-        const taskTitle = document.getElementById("taskTitle").value.trim();
-        const taskPriority = document.getElementById("taskPriority").value;
-        if (taskTitle) {
-          taskManager.addTask(taskTitle, taskPriority);
-          document.getElementById("taskTitle").value = ""; // Clear input field
-        } else {
-          alert("Please enter a task title.");
-        }
-      });
+        // Event listener for adding tasks
+        document.getElementById("addTaskBtn").addEventListener("click", () => {
+            const taskTitle = document.getElementById("taskTitle").value.trim();
+            const taskPriority = document.getElementById("taskPriority").value;
+            if (taskTitle) {
+                taskManager.addTask(taskTitle, taskPriority);
+                document.getElementById("taskTitle").value = ""; // Clear input field
+            } else {
+                alert("Please enter a task title.");
+            }
+        });
 
-      // Initial tasks
-      taskManager.addTask("Learn JavaScript", "High");
-      taskManager.addTask("Complete Project", "Medium");
-      taskManager.addTask("Submit Assignment", "High");
+        // Initial tasks
+        taskManager.addTask("Learn JavaScript", "High");
+        taskManager.addTask("Complete Project", "Medium");
+        taskManager.addTask("Submit Assignment", "High");
 
-      // Displaying initial tasks
-      taskManager.displayTasks();
+        // Displaying initial tasks
+        taskManager.displayTasks();
     </script>
-  </body>
+</body>
+
 </html>
