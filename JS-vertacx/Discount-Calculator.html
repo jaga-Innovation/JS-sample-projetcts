@@ -1,0 +1,65 @@
+<!-- <link rel="stylesheet" href="../JS/assets/style.css">
+<script src="../JS/assets/script.js"></script> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price with Discount Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Price with Discount Calculator</h1>
+     
+    <label for="price">Original Price ($): </label>
+    <input type="number" id="price" placeholder="Enter price" step="0.01"><br><br>
+
+    <label for="discount">Discount (%) (Optional): </label>
+    <input type="number" id="discount" placeholder="Enter discount" step="0.01"><br><br>
+
+    <button onclick="handleClick()">Calculate Final Price</button>
+
+    <h2 id="result"></h2>
+
+    <script>
+        function calculateDiscountedPrice(price = 0, discount = 0) {
+            // Calculate the discounted price
+            const discountedPrice = price - (price * (discount / 100));
+
+            // Display the result
+            document.getElementById('result').innerText = `Final Price: $${discountedPrice.toFixed(2)}`;
+        }
+
+        function handleClick() {
+            // Get values from input fields
+            const price = parseFloat(document.getElementById('price').value);
+            const discount = parseFloat(document.getElementById('discount').value);
+
+            // Check if discount is not provided, use default value
+            calculateDiscountedPrice(price, isNaN(discount) ? 0 : discount);
+        }
+    </script>
+</body>
+</html>

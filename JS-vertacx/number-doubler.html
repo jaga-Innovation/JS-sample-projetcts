@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Manipulation Activity</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        h4 {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Array Manipulation Activity</h1>
+    <label for="numberInput">Enter numbers (comma-separated): </label>
+    <input type="text" id="numberInput" placeholder="e.g., 1, 2, 3, 4, 5">
+    <button onclick="processArray()">Process Array</button>
+
+    <div id="result"></div>
+
+    <script>
+        function processArray() {
+            const input = document.getElementById('numberInput').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous results
+            resultDiv.innerHTML = '';
+
+            if (input === '') {
+                alert('Please enter some numbers.');
+                return;
+            }
+
+            // Convert input to an array of numbers
+            let numbers = input.split(',').map(num => parseFloat(num.trim()));
+
+            // Filter out invalid numbers
+            let validNumbers = numbers.filter(num => !isNaN(num));
+
+            if (validNumbers.length === 0) {
+                alert('Please enter valid numbers.');
+                return;
+            }
+
+            // Task 1: Number Doubler (map)
+            const doubledNumbers = validNumbers.map(num => num * 2);
+            resultDiv.innerHTML += `<h4>Doubled Numbers:</h4><p>${doubledNumbers.join(', ')}</p>`;
+
+            // Task 2: Array Sum (reduce)
+            const sum = validNumbers.reduce((acc, curr) => acc + curr, 0);
+            resultDiv.innerHTML += `<h4>Sum of Numbers:</h4><p>${sum}</p>`;
+
+            // Task 3: Even/Odd Separator
+            const evenNumbers = validNumbers.filter(num => num % 2 === 0);
+            const oddNumbers = validNumbers.filter(num => num % 2 !== 0);
+            resultDiv.innerHTML += `<h4>Even Numbers:</h4><p>${evenNumbers.join(', ') || 'None'}</p>`;
+            resultDiv.innerHTML += `<h4>Odd Numbers:</h4><p>${oddNumbers.join(', ') || 'None'}</p>`;
+
+            // Task 4: Filter numbers greater than 10
+            const greaterThanTen = validNumbers.filter(num => num > 10);
+            resultDiv.innerHTML += `<h4>Numbers Greater Than 10:</h4><p>${greaterThanTen.join(', ') || 'None'}</p>`;
+
+            // Task 5: Find Maximum (Math.max)
+            const maxNumber = Math.max(...validNumbers);
+            resultDiv.innerHTML += `<h4>Maximum Number:</h4><p>${maxNumber}</p>`;
+
+            // Task 6: Find Minimum (Math.min)
+            const minNumber = Math.min(...validNumbers);
+            resultDiv.innerHTML += `<h4>Minimum Number:</h4><p>${minNumber}</p>`;
+
+            // Task 7: Reverse Array (reverse)
+            const reversedArray = [...validNumbers].reverse();
+            resultDiv.innerHTML += `<h4>Reversed Array:</h4><p>${reversedArray.join(', ')}</p>`;
+
+            // Task 8: Sort Array (sort)
+            const sortedArrayAsc = [...validNumbers].sort((a, b) => a - b);
+            const sortedArrayDesc = [...validNumbers].sort((a, b) => b - a);
+            resultDiv.innerHTML += `<h4>Sorted Array (Ascending):</h4><p>${sortedArrayAsc.join(', ')}</p>`;
+            resultDiv.innerHTML += `<h4>Sorted Array (Descending):</h4><p>${sortedArrayDesc.join(', ')}</p>`;
+
+            // Task 9: Array Concatenation (concat)
+            const extraArray = [100, 200, 300];
+            const concatenatedArray = validNumbers.concat(extraArray);
+            resultDiv.innerHTML += `<h4>Concatenated with [100, 200, 300]:</h4><p>${concatenatedArray.join(', ')}</p>`;
+
+            // Task 10: Array to String (join)
+            const arrayToString = validNumbers.join(', ');
+            resultDiv.innerHTML += `<h4>Array as String:</h4><p>${arrayToString}</p>`;
+        }
+    </script>
+</body>
+</html>

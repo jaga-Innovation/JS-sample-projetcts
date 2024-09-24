@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List App with Advanced Sorting</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+        }
+
+        input {
+            width: 45%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+
+        #emptyMessage {
+            color: #777;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .sort-buttons {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sort-buttons button {
+            background-color: #007bff;
+        }
+
+        .sort-buttons button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Shopping List</h1>
+
+        <div>
+            <input type="text" id="itemInput" placeholder="Enter item name">
+            <input type="number" id="priceInput" placeholder="Enter price" min="0" step="0.01">
+            <button onclick="addItem()">Add</button>
+        </div>
+
+        <div class="sort-buttons">
+            <button onclick="sortByNameAsc()">A-Z</button>
+            <button onclick="sortByNameDesc()">Z-A</button>
+            <button onclick="sortByPriceAsc()">Low to High</button>
+            <button onclick="sortByPriceDesc()">High to Low</button>
+        </div>
+
+        <h2>My Shopping List:</h2>
+        <ul id="shoppingList"></ul>
+        <p id="emptyMessage">Your shopping list is empty.</p>
+
+        <div class="total">Total: $<span id="totalPrice">0.00</span></div>
+    </div>
+
+    <script>
+        let shoppingList = [];
+        let totalCost = 0;
+
+        function addItem() {
+            const itemInput = document.getElementById('itemInput');
+            const priceInput = document.getElementById('priceInput');
+            const item = itemInput.value.trim();
+            const price = parseFloat(priceInput.value.trim());
+
+            if (item === '' || isNaN(price) || price < 0) {
+                alert('Please enter a valid item and price.');
+                return;
+            }
+
+            shoppingList.push({ item, price });
+            totalCost += price;
+            displayList();
+            itemInput.value = '';  // Clear item input field
+            priceInput.value = '';  // Clear price input field
+        }
+
+        function removeItem(index) {
+            totalCost -= shoppingList[index].price;
+            shoppingList.splice(index, 1);  // Remove item at index
+            displayList();
+        }
+
+        function displayList() {
+            const listElement = document.getElementById('shoppingList');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const totalPriceElement = document.getElementById('totalPrice');
+            listElement.innerHTML = '';
+
+            if (shoppingList.length === 0) {
+                emptyMessage.style.display = 'block';
+                totalCost = 0; // Reset total cost when the list is empty
+            } else {
+                emptyMessage.style.display = 'none';
+                shoppingList.forEach((entry, index) => {
+                    listElement.innerHTML += `<li>${entry.item} - $${entry.price.toFixed(2)} <button class="remove-btn" onclick="removeItem(${index})">Remove</button></li>`;
+                });
+            }
+
+            // Update total price
+            totalPriceElement.textContent = totalCost.toFixed(2);
+        }
+
+        function sortByNameAsc() {
+            shoppingList.sort((a, b) => a.item.localeCompare(b.item));
+            displayList();
+        }
+
+        function sortByNameDesc() {
+            shoppingList.sort((a, b) => b.item.localeCompare(a.item));
+            displayList();
+        }
+
+        function sortByPriceAsc() {
+            shoppingList.sort((a, b) => a.price - b.price);
+            displayList();
+        }
+
+        function sortByPriceDesc() {
+            shoppingList.sort((a, b) => b.price - a.price);
+            displayList();
+        }
+    </script>
+
+</body>
+</html>

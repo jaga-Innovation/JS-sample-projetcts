@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Even/Odd Number Separator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        .even {
+            color: green;
+        }
+
+        .odd {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Even/Odd Number Separator</h1>
+
+    <label for="numberInput">Enter numbers (comma-separated): </label>
+    <input type="text" id="numberInput" placeholder="e.g. 1,2,3,4,5"><br><br>
+
+    <button onclick="separateEvenOdd()">Separate Even and Odd</button>
+
+    <div id="result">
+        <h3>Even Numbers:</h3>
+        <ul id="evenList"></ul>
+        <h3>Odd Numbers:</h3>
+        <ul id="oddList"></ul>
+    </div>
+
+    <script>
+        function separateEvenOdd() {
+            const input = document.getElementById('numberInput').value.trim();
+            const evenList = document.getElementById('evenList');
+            const oddList = document.getElementById('oddList');
+
+            // Clear previous results
+            evenList.innerHTML = '';
+            oddList.innerHTML = '';
+
+            if (input === '') {
+                alert('Please enter some numbers.');
+                return;
+            }
+
+            const numbers = input.split(',').map(num => parseInt(num.trim(), 10));
+
+            numbers.forEach(number => {
+                if (!isNaN(number)) {
+                    const listItem = document.createElement('li');
+                    listItem.innerText = number;
+
+                    if (number % 2 === 0) {
+                        listItem.classList.add('even');
+                        evenList.appendChild(listItem);
+                    } else {
+                        listItem.classList.add('odd');
+                        oddList.appendChild(listItem);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

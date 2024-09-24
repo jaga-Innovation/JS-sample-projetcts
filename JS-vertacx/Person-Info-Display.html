@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Info Display with Parallax</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .parallax {
+            /* New background image for parallax effect */
+            background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1080');
+            height: 100vh; /* Full height */
+            background-attachment: fixed; /* Parallax effect */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 26px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .info {
+            margin: 15px 0;
+            font-size: 18px;
+            color: #34495e;
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .info:hover {
+            background: #bdc3c7;
+            transform: scale(1.02);
+        }
+
+        .hobbies {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .hobby {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .hobby:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="parallax">
+        <div class="container">
+            <h1>Person Info Display</h1>
+            <div class="info">Name: <span id="name"></span></div>
+            <div class="info">Age: <span id="age"></span></div>
+            <div class="info">Profession: <span id="profession"></span></div>
+            <div class="info">Hobbies:</div>
+            <div class="hobbies" id="hobbies"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create a person object
+        const person = {
+            name: "John Doe",
+            age: 30,
+            profession: "Web Developer",
+            hobbies: ["Reading", "Traveling", "Coding", "Gaming"]
+        };
+
+        // Destructure properties from the person object
+        const { name, age, profession, hobbies } = person;
+
+        // Display the person's information
+        document.getElementById('name').textContent = name;
+        document.getElementById('age').textContent = age;
+        document.getElementById('profession').textContent = profession;
+
+        const hobbiesDiv = document.getElementById('hobbies');
+        hobbies.forEach(hobby => {
+            const hobbySpan = document.createElement('span');
+            hobbySpan.className = 'hobby';
+            hobbySpan.textContent = hobby;
+            hobbiesDiv.appendChild(hobbySpan);
+        });
+    </script>
+
+</body>
+</html>

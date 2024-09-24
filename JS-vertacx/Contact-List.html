@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 450px;
+            transition: transform 0.2s;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: calc(50% - 12px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .clear-btn {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            font-size: 14px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #emptyMessage {
+            color: #777;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Contact List</h1>
+
+        <div>
+            <input type="text" id="nameInput" placeholder="Enter Name">
+            <span id="nameError" class="error"></span>
+            <input type="text" id="phoneInput" placeholder="Enter Phone Number">
+            <span id="phoneError" class="error"></span>
+            <input type="email" id="emailInput" placeholder="Enter Email">
+            <span id="emailError" class="error"></span>
+            <input type="file" id="photoInput" accept="image/*">
+            <button onclick="addContact()">Add Contact</button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search Contacts">
+            <button onclick="filterContacts()">Search</button>
+            <button class="clear-btn" onclick="clearSearch()">Clear</button>
+        </div>
+
+        <h2>My Contacts:</h2>
+        <ul id="contactList"></ul>
+        <p id="emptyMessage">Your contact list is empty.</p>
+    </div>
+
+    <script>
+        let contacts = [];
+
+        function addContact() {
+            const nameInput = document.getElementById('nameInput');
+            const phoneInput = document.getElementById('phoneInput');
+            const emailInput = document.getElementById('emailInput');
+            const photoInput = document.getElementById('photoInput');
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const email = emailInput.value.trim();
+            const photo = photoInput.files[0];
+
+            let valid = true;
+
+            // Clear previous error messages
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('phoneError').textContent = '';
+            document.getElementById('emailError').textContent = '';
+
+            // Validate name
+            if (name.length < 2) {
+                document.getElementById('nameError').textContent = 'Name must be at least 2 characters.';
+                valid = false;
+            }
+
+            // Validate phone number
+            if (!/^\d{7,}$/.test(phone)) {
+                document.getElementById('phoneError').textContent =
+                    'Phone number must be at least 7 digits and cannot be a float.';
+                valid = false;
+            }
+
+            // Validate email
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                valid = false;
+            }
+
+            if (!valid) return; // Stop execution if validation fails
+
+            const contact = {
+                name,
+                phone,
+                email,
+                photo: photo ? URL.createObjectURL(photo) :
+                    'default-photo.png' // Use a default photo if none provided
+            };
+            contacts.push(contact);
+            contacts.sort((a, b) => a.name.localeCompare(b.name)); // Sort contacts A-Z
+            displayContacts();
+            nameInput.value = ''; // Clear input field
+            phoneInput.value = ''; // Clear input field
+            emailInput.value = ''; // Clear input field
+            photoInput.value = ''; // Clear file input
+        }
+
+        function removeContact(index) {
+            contacts.splice(index, 1); // Remove contact at index
+            displayContacts();
+        }
+
+        function displayContacts(filteredContacts = contacts) {
+            const listElement = document.getElementById('contactList');
+            const emptyMessage = document.getElementById('emptyMessage');
+            listElement.innerHTML = '';
+
+            if (filteredContacts.length === 0) {
+                emptyMessage.style.display = 'block';
+            } else {
+                emptyMessage.style.display = 'none';
+                filteredContacts.forEach((contact, index) => {
+                    const highlightedName = highlightText(contact.name);
+                    const highlightedPhone = highlightText(contact.phone);
+                    const highlightedEmail = highlightText(contact.email);
+                    listElement.innerHTML += `
+                        <li>
+                            <img src="${contact.photo}" alt="${contact.name}'s photo">
+                            <span>${highlightedName} - ${highlightedPhone} - ${highlightedEmail}</span>
+                            <button class="remove-btn" onclick="removeContact(${index})">Remove</button>
+                        </li>`;
+                });
+            }
+        }
+
+        function highlightText(text) {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const searchRegex = new RegExp(`(${searchInput})`, 'gi'); // Case insensitive search
+            return text.replace(searchRegex, '<span class="highlight">$1</span>');
+        }
+
+        function filterContacts() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredContacts = contacts.filter(contact =>
+                contact.name.toLowerCase().includes(searchInput) ||
+                contact.phone.includes(searchInput) ||
+                contact.email.toLowerCase().includes(searchInput)
+            );
+            displayContacts(filteredContacts);
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            displayContacts();
+        }
+    </script>
+
+</body>
+
+</html>
