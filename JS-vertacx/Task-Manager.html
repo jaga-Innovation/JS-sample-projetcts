@@ -110,4 +110,106 @@
         <button id="addTaskBtn">Add Task</button>
     </div>
 
-    
+    <script>
+        // Task Manager Object
+        const taskManager = {
+            tasks: [], // Array to hold tasks
+
+            // Method to add a task
+            addTask(title, priority = 'Medium') {
+                const task = {
+                    title,
+                    description: '',
+                    status: 'Pending',
+                    priority
+                };
+                this.tasks.push(task);
+                this.displayTasks();
+            },
+
+            // Method to remove a task by title
+            removeTask(title) {
+                this.tasks = this.tasks.filter(task => task.title !== title);
+                this.displayTasks();
+            },
+
+            // Method to update a task by title
+            updateTask(title, updates) {
+                this.tasks = this.tasks.map(task =>
+                    task.title === title ? {
+                        ...task,
+                        ...updates
+                    } : task
+                );
+                this.displayTasks();
+            },
+
+            // Method to toggle task status
+            toggleStatus(title) {
+                const task = this.tasks.find(task => task.title === title);
+                if (task) {
+                    const newStatus = task.status === 'Pending' ? 'Completed' : 'Pending';
+                    this.updateTask(title, {
+                        status: newStatus
+                    });
+                }
+            },
+
+            // Method to display tasks
+            displayTasks() {
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = ''; // Clear existing tasks
+                this.tasks.forEach(({
+                    title,
+                    status,
+                    priority
+                }) => {
+                    const taskDiv = document.createElement('div');
+                    taskDiv.className = `task ${status === 'Completed' ? 'completed' : ''}`;
+                    taskDiv.innerHTML =
+                        `<strong>${title}</strong> <br><strong>Priority:</strong> ${priority} <br><strong>Status:</strong> ${status}`;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.innerText = 'Remove';
+                    removeBtn.onclick = () => this.removeTask(title);
+
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.innerText = status === 'Completed' ? 'Mark as Pending' : 'Mark as Completed';
+                    toggleBtn.onclick = () => this.toggleStatus(title);
+
+                    taskDiv.appendChild(removeBtn);
+                    taskDiv.appendChild(toggleBtn);
+                    taskList.appendChild(taskDiv);
+                });
+            }
+        };
+
+        // Event listener for adding tasks
+        document.getElementById('addTaskBtn').addEventListener('click', () => {
+            const taskTitle = document.getElementById('taskTitle').value.trim();
+            const taskPriority = document.getElementById('taskPriority').value;
+            if (taskTitle) {
+                taskManager.addTask(taskTitle, taskPriority);
+                document.getElementById('taskTitle').value = ''; // Clear input field
+            } else {
+                alert('Please enter a task title.');
+            }
+        });
+
+
+
+
+        // Initial tasks
+        taskManager.addTask('Learn JavaScript', 'High');
+        taskManager.addTask('Complete Project', 'Medium');
+        taskManager.addTask('Submit Assignment', 'High');
+
+
+        
+        // Displaying initial tasks
+        taskManager.displayTasks();
+    </script>
+
+</body>
+
+</html>
