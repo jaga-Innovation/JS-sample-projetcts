@@ -176,17 +176,23 @@
 
                     taskDiv.appendChild(removeBtn);
                     taskDiv.appendChild(toggleBtn);
-                    taskList.appendChild(taskDiv);
-                });
+                             taskList.appendChild(taskDiv);
+                }          );
+                   
+        
+        
+        
             },
-        };
+        }; 
+
+
 
         // Event listener for adding tasks
         document.getElementById("addTaskBtn").addEventListener("click", () => {
             const taskTitle = document.getElementById("taskTitle").value.trim();
             const taskPriority = document.getElementById("taskPriority").value;
             if (taskTitle) {
-                taskManager.addTask(taskTitle, taskPriority);
+                             taskManager.addTask(taskTitle, taskPriority);
                 document.getElementById("taskTitle").value = ""; // Clear input field
             } else {
                 alert("Please enter a task title.");
@@ -200,7 +206,7 @@
 
         // Displaying initial tasks
         taskManager.displayTasks();
-    </script>
+            </script>             
 </body>
 
 </html>
