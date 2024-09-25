@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact List App</title>
@@ -28,7 +25,6 @@
             width: 450px;
             transition: transform 0.2s;
         }
-
 
         h1 {
             text-align: center;
@@ -61,7 +57,6 @@
             cursor: pointer;
         }
 
-
         .clear-btn {
             padding: 5px 10px;
             background-color: #dc3545;
@@ -69,10 +64,7 @@
             margin-left: 10px;
             border: none;
             border-radius: 5px;
-         
-         
             cursor: pointer;
-         
             color: white;
         }
 
@@ -88,7 +80,6 @@
             margin-bottom: 10px;
             border-radius: 5px;
             display: flex;
-        
             align-items: center;
             justify-content: space-between;
         }
@@ -100,11 +91,8 @@
             margin-right: 10px;
         }
 
-
-
         .remove-btn {
             background-color: #dc3545;
-          
             color: white;
             padding: 5px 10px;
             border: none;
@@ -115,10 +103,8 @@
         #emptyMessage {
             color: #777;
             text-align: center;
-         
             margin-top: 15px;
-           }
-
+        }
 
         .error {
             color: red;
@@ -139,23 +125,18 @@
     </style>
 </head>
 
-
 <body>
 
     <div class="container">
         <h1>Contact List</h1>
 
-
         <div>
-
             <input type="text" id="nameInput" placeholder="Enter Name">
             <span id="nameError" class="error"></span>
             <input type="text" id="phoneInput" placeholder="Enter Phone Number">
             <span id="phoneError" class="error"></span>
             <input type="email" id="emailInput" placeholder="Enter Email">
-            
             <span id="emailError" class="error"></span>
-            
             <input type="file" id="photoInput" accept="image/*">
             <button onclick="addContact()">Add Contact</button>
         </div>
@@ -168,18 +149,14 @@
 
         <h2>My Contacts:</h2>
         <ul id="contactList"></ul>
-      
         <p id="emptyMessage">Your contact list is empty.</p>
     </div>
 
-    
     <script>
-
         let contacts = [];
 
         function addContact() {
             const nameInput = document.getElementById('nameInput');
-          
             const phoneInput = document.getElementById('phoneInput');
             const emailInput = document.getElementById('emailInput');
             const photoInput = document.getElementById('photoInput');
@@ -187,30 +164,24 @@
             const name = nameInput.value.trim();
             const phone = phoneInput.value.trim();
             const email = emailInput.value.trim();
-          
             const photo = photoInput.files[0];
 
             let valid = true;
 
             // Clear previous error messages
-           
             document.getElementById('nameError').textContent = '';
             document.getElementById('phoneError').textContent = '';
-            
             document.getElementById('emailError').textContent = '';
 
             // Validate name
             if (name.length < 2) {
-              
                 document.getElementById('nameError').textContent = 'Name must be at least 2 characters.';
-                
                 valid = false;
             }
 
             // Validate phone number
             if (!/^\d{7,}$/.test(phone)) {
                 document.getElementById('phoneError').textContent =
-               
                     'Phone number must be at least 7 digits and cannot be a float.';
                 valid = false;
             }
