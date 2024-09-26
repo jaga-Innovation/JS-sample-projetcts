@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#color-box {
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+}
+
+select, input, button {
+    padding: 10px;
+    margin: 10px;
+}
+
+#history {
+    margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
+}
+
+#history li {
+    padding: 5px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
