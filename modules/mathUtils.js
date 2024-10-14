@@ -2,10 +2,17 @@
 
 export const PI = 3.14159;
 
-export function add(a, b) {
-    return a + b;
+
+  const obj = {
+    add:function (a, b) {
+        return a + b;
+    },
+
+    sub:function (a, b) {
+        return a - b;},
+
+        PI: PI
 }
 
-export function subtract(a, b) {
-    return a - b;
-}
+
+export default obj;
