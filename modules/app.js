@@ -1,30 +1,25 @@
+// Import lodash
+import _ from 'lodash';
 
-import imageSize from 'image-size'
+// Function to chunk the array
+function chunkArray() {
+    const numbersInput = document.getElementById('numbersInput').value;
+    const chunkSize = parseInt(document.getElementById('chunkSizeInput').value, 10);
 
-console.log(imageSize);
+    if (!numbersInput || isNaN(chunkSize) || chunkSize <= 0) {
+        document.getElementById('result').innerText = 'Please enter valid numbers and chunk size.';
+        return;
+    }
 
+    // Convert the string input to an array of numbers
+    const numbersArray = numbersInput.split(',').map(Number);
 
-// const resultsDiv =ize document.getElementById('results');
+    // Use lodash to chunk the array
+    const chunkedArray = _.chunk(numbersArray, chunkSize);
 
-// Using the imported functions and constant
-// const sum = ipdi.add(10, 5);
-// const difference = ipdi.sub(10, 5);
+    // Display the result
+    document.getElementById('result').innerText = `Chunked Array: ${JSON.stringify(chunkedArray)}`;
+}
 
-// resultsDiv.innerHTML = `
-//     <p>PI: ${ipdi.PI}</p>
-//     <p>Sum: ${sum}</p>
-//     <p>Difference: ${difference}</p>
-
-// `;
-
-imageSize("./computer.png", function (err, dimensions) {
-  console.log(dimensions.width, dimensions.height)
-})
-
-
-console.log(imageSize);
-
-
-
-
-
+// Event listener for button
+document.getElementById('chunkButton').addEventListener('click', chunkArray);
